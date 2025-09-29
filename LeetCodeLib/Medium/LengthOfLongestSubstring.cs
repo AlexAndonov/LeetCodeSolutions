@@ -6,28 +6,31 @@ using System.Threading.Tasks;
 
 namespace LeetCodeLib.Medium
 {
-    public class LengthOfLongestSubstring
+    public static class LengthOfLongestSubstring
     {
-        public int LengthOfSubstring(string s)
+        public static int Solve(string s)
         {
-            HashSet<char> set = new HashSet<char>(); 
-            int maxLength = 0; 
-            int start = 0; 
+            HashSet<char> charSet = new();
+            int left = 0;
+            int right = 0;
+            int maxLength = 0;
 
-            for (int end = 0; end < s.Length; end++)
+            while(right < s.Length)
             {
-                
-                while (set.Contains(s[end]))
+                if (!charSet.Contains(s[right]))
                 {
-                    set.Remove(s[start]);
-                    start++;
+                    charSet.Add(s[right]);
+                    right++;
+                    maxLength = Math.Max(maxLength, right - left);
                 }
-
-                set.Add(s[end]); 
-                maxLength = Math.Max(maxLength, end - start + 1); 
+                else
+                {
+                    charSet.Remove(s[left]);
+                    left++;
+                }
             }
 
             return maxLength;
-        }
+		}
     }
 }
